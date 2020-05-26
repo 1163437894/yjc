@@ -1,11 +1,13 @@
 package com.yjc.test;
 
+import com.yjc.anno.EagleEye;
 import com.yjc.model.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -60,8 +62,15 @@ public class TestController {
 
 
     @GetMapping("testValidator")
-    public String testValidator(@Valid Test test){
+    public String testValidator(@Valid Test test) {
         return "?";
+    }
+
+
+    @GetMapping("testAop")
+    @EagleEye(desc = "测试切入")
+    public String testValidator(@RequestParam String name) {
+        return name;
     }
 
 

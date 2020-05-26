@@ -1,10 +1,15 @@
 package com.yjc.anno;
 
 
-import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * 手机号验证规则
+ *
+ * @author yjc
+ * @since 2020/5/26
+ */
 public class PhoneValidator implements ConstraintValidator<PhoneAnno, String> {
     @Override
     public void initialize(PhoneAnno constraintAnnotation) {

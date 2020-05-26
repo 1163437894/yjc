@@ -6,6 +6,12 @@ import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 import java.lang.annotation.*;
 
+/**
+ * 手机号验证注解
+ *
+ * @author yjc
+ * @since 2020/5/26
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {PhoneValidator.class})
