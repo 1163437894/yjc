@@ -3,4 +3,4 @@ server:
 
 spring:
   profiles:
-    active: @profiles.active@
+    active: '@profiles.active@'
