@@ -1,37 +1,46 @@
 package com.yjc.redis;
 
-import redis.clients.jedis.Jedis;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
+import java.time.Duration;
+import java.util.Collections;
 
-public abstract class RedisLock implements Lock {
-    protected Jedis jedis;
-    protected String lockKey;
+@Component
+public class RedisLock {
 
-    public RedisLock(Jedis jedis, String lockKey) {
-        this.jedis = jedis;
-        this.lockKey = lockKey;
+    private final StringRedisTemplate redisTemplate;
+
+    private final RedisScript<Boolean> releaseScript;
+
+    @Autowired
+    public RedisLock(StringRedisTemplate redisTemplate, RedisScript<Boolean> releaseScript) {
+        this.redisTemplate = redisTemplate;
+        this.releaseScript = releaseScript;
     }
 
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
-
+    /**
+     * 获取锁
+     *
+     * @param key    key
+     * @param token  上锁 token
+     * @param expire 过期时间
+     * @return true or false
+     */
+    Boolean getLock(String key, String token, int expire) {
+        return redisTemplate.opsForValue().setIfAbsent(key, token, Duration.ofSeconds(expire));
     }
 
-    @Override
-    public Condition newCondition() {
-        return null;
+    /**
+     * 释放锁
+     *
+     * @param key   key
+     * @param token token
+     */
+    Boolean releaseLock(String key, String token) {
+        return redisTemplate.execute(releaseScript, Collections.singletonList(key), token);
     }
 
-    @Override
-    public boolean tryLock() {
-        return false;
-    }
-
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return false;
-    }
 }

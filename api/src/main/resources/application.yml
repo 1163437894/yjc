@@ -4,3 +4,6 @@ server:
 spring:
   profiles:
     active: '@profiles.active@'
+  main:
+    allow-bean-definition-overriding: true
+
