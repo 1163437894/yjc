@@ -1,15 +1,14 @@
 package com.yjc;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class AppStart {
-
+//@EnableEurekaServer
+public class ProjectStart {
     public static void main(String[] args) {
-        SpringApplication.run(AppStart.class, args);
+        SpringApplication.run(ProjectStart.class, args);
     }
-
-
 }
